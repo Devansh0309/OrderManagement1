@@ -1,8 +1,10 @@
+let arr=[]
 const executeOrder=async ()=>{
     let orderId=document.getElementById('order-id-input').value
     if(orderId){
         document.getElementById('order-status').innerText="Order status for ID: "+orderId
         document.getElementById('order-id-input').value=''
+        document.getElementById('button-addon2').style.pointerEvents='none'
         try {
             commonPromise('first',0) 
             await commonPromise('second',2000)
@@ -17,6 +19,7 @@ const executeOrder=async ()=>{
         } catch (err) {
             alert(err)
         }
+        document.getElementById('button-addon2').style.pointerEvents='all'
     }
     else{
         alert('Please enter an order ID')
@@ -25,10 +28,18 @@ const executeOrder=async ()=>{
 }
 const commonPromise=(step,time)=>{
     return new Promise((resolve, reject) => {
-        setTimeout(() => {
+        arr.push([setTimeout(() => {
             document.getElementById(step).classList.remove('btn-light')
             document.getElementById(step).classList.add('btn-success')
             resolve()
-        }, time)
+        }, time),step])
     }) 
+}
+const reset=()=>{
+    document.getElementById('order-status').innerText=''
+    arr.forEach((ele)=>{
+        clearTimeout(ele[0])
+        document.getElementById(ele[1]).className='btn btn-lg order-status-block btn-light'
+    })
+    document.getElementById('button-addon2').style.pointerEvents='all'
 }
