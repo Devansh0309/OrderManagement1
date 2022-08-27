@@ -1,7 +1,9 @@
 let arr=[]
+let ID=[]
 const executeOrder=async ()=>{
     let orderId=document.getElementById('order-id-input').value
-    if(orderId){
+    if(orderId && !ID.includes(orderId)){
+        ID.push(orderId)
         document.getElementById('order-status').innerText="Order status for ID: "+orderId
         document.getElementById('order-id-input').value=''
         document.getElementById('button-addon2').style.pointerEvents='none'
@@ -22,7 +24,7 @@ const executeOrder=async ()=>{
         document.getElementById('button-addon2').style.pointerEvents='all'
     }
     else{
-        alert('Please enter an order ID')
+        alert('Please renter an order ID')
     }
     
 }
@@ -37,9 +39,17 @@ const commonPromise=(step,time)=>{
 }
 const reset=()=>{
     document.getElementById('order-status').innerText=''
-    arr.forEach((ele)=>{
-        clearTimeout(ele[0])
-        document.getElementById(ele[1]).className='btn btn-lg order-status-block btn-light'
-    })
-    document.getElementById('button-addon2').style.pointerEvents='all'
+    if(arr.length<=3){
+        arr.forEach((ele)=>{
+            clearTimeout(ele[0])
+            document.getElementById(ele[1]).className='btn btn-lg order-status-block btn-light'
+        })
+        document.getElementById('button-addon2').style.pointerEvents='all'
+        ID.splice(ID.indexOf(orderId),1)
+        arr=[]
+    }
+    else{
+        alert("Cannot cancel or reset")
+    }
+    
 }
