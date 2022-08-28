@@ -4,9 +4,11 @@ const executeOrder=async ()=>{
     let orderId=document.getElementById('order-id-input').value
     if(orderId && !ID.includes(orderId)){
         ID.push(orderId)
+        console.log(ID)
         document.getElementById('order-status').innerText="Order status for ID: "+orderId
         document.getElementById('order-id-input').value=''
         document.getElementById('button-addon2').style.pointerEvents='none'
+        document.getElementById('res').addEventListener('click',()=>{reset(orderId)})
         try {
             commonPromise('first',0) 
             await commonPromise('second',2000)
@@ -21,6 +23,11 @@ const executeOrder=async ()=>{
         } catch (err) {
             alert(err)
         }
+        arr.forEach((ele)=>{
+            clearTimeout(ele[0])
+            document.getElementById(ele[1]).className='btn btn-lg order-status-block btn-light'
+        })
+        document.getElementById('order-status').innerText=''
         document.getElementById('button-addon2').style.pointerEvents='all'
     }
     else{
@@ -37,7 +44,7 @@ const commonPromise=(step,time)=>{
         }, time),step])
     }) 
 }
-const reset=()=>{
+const reset=(id)=>{
     document.getElementById('order-status').innerText=''
     if(arr.length<=3){
         arr.forEach((ele)=>{
@@ -45,7 +52,8 @@ const reset=()=>{
             document.getElementById(ele[1]).className='btn btn-lg order-status-block btn-light'
         })
         document.getElementById('button-addon2').style.pointerEvents='all'
-        ID.splice(ID.indexOf(orderId),1)
+        ID.splice(ID.indexOf(id),1)
+        console.log(ID)
         arr=[]
     }
     else{
