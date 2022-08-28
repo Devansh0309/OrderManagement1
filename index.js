@@ -26,8 +26,9 @@ const executeOrder=async ()=>{
         setTimeout(()=>{arr.forEach((ele)=>{
             clearTimeout(ele[0])
             document.getElementById(ele[1]).className='btn btn-lg order-status-block btn-light'
+            document.getElementById('order-status').innerText=''
         })},4000)
-        document.getElementById('order-status').innerText=''
+        
         document.getElementById('button-addon2').style.pointerEvents='all'
     }
     else{
